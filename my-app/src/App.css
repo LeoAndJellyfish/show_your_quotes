@@ -16,7 +16,7 @@ body {
 
 .quote-count {
   position: absolute;
-  top: 10px;
+  bottom: 10px;
   left: 10px;
   font-size: 1rem;
   font-weight: bold;
@@ -75,4 +75,25 @@ body {
   margin-top: 1rem;
   color: #e5e7eb; /* 浅灰色 */
   font-size: 1rem;
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+  padding: 5px 10px;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+/* 新增时间和日期显示样式 */
+.time-date {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.current-time {
+  margin-bottom: 5px;
+}
+
+.current-date {
+  font-size: 12px;
 }

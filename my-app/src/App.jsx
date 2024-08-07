@@ -10,6 +10,8 @@ const App = () => {
   const [isAutoPlay, setIsAutoPlay] = useState(false);
   const [countdown, setCountdown] = useState(10);
   const [quoteCount, setQuoteCount] = useState(0); // 新增状态来存储格言数量
+  const [currentTime, setCurrentTime] = useState('');
+  const [currentDate, setCurrentDate] = useState('');
 
   const timerRef = useRef(null);
 
@@ -58,8 +60,28 @@ const App = () => {
     setQuoteCount(quotes.length); // 设置格言数量
   }, []);
 
+  // 更新时间和日期的逻辑
+  useEffect(() => {
+    const updateTimeAndDate = () => {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString('zh-CN', { hour12: false, hour: '2-digit', minute: '2-digit' });
+      const dateString = now.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
+      setCurrentTime(timeString);
+      setCurrentDate(dateString);
+    };
+
+    updateTimeAndDate(); // 初始更新
+    const intervalId = setInterval(updateTimeAndDate, 60000); // 每分钟更新一次
+
+    return () => clearInterval(intervalId); // 清理定时器
+  }, []);
+
   return (
     <div className="container">
+      <div className="time-date">
+        <div className="current-time">北京时间: {currentTime}</div>
+        <div className="current-date">日期: {currentDate}</div>
+      </div>
       <div className="quote-count">格言总数: {quoteCount}</div> {/* 显示格言数量 */}
       <div className={`quote-box ${fade ? 'visible' : 'hidden'}`}>
         <p className="quote-text">{quote.text}</p>
