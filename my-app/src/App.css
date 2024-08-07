@@ -1,0 +1,78 @@
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(to right, #3b82f6, #8b5cf6); /* 背景渐变 */
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative; /* 确保子元素能够相对于容器定位 */
+}
+
+.quote-count {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff; /* 白色字体 */
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+
+.quote-box {
+  color: white;
+  font-size: 2rem;
+  padding: 1.5rem;
+  font-family: 'Georgia', serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.5s ease-in-out;
+}
+
+.quote-box.hidden {
+  opacity: 0;
+}
+
+.quote-box.visible {
+  opacity: 1;
+}
+
+.author {
+  font-size: 1.2rem;
+  color: #e5e7eb; /* 浅灰色 */
+}
+
+.change-quote-btn, .auto-play-btn {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #4f46e5; /* 按钮背景色 */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.change-quote-btn:hover, .auto-play-btn:hover {
+  background-color: #4338ca; /* 按钮悬停效果 */
+}
+
+.change-quote-btn:disabled {
+  background-color: #9ca3af; /* 按钮禁用时颜色 */
+  cursor: not-allowed;
+}
+
+.countdown {
+  margin-top: 1rem;
+  color: #e5e7eb; /* 浅灰色 */
+  font-size: 1rem;
+}
