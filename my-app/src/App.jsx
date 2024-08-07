@@ -9,11 +9,13 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [isAutoPlay, setIsAutoPlay] = useState(false);
   const [countdown, setCountdown] = useState(10);
-  const [quoteCount, setQuoteCount] = useState(0); // 新增状态来存储格言数量
   const [currentTime, setCurrentTime] = useState('');
   const [currentDate, setCurrentDate] = useState('');
+  const [autoPlayInterval, setAutoPlayInterval] = useState(10); // 新增状态来存储自动播放间隔
+  const [showSettings, setShowSettings] = useState(false); // 新增状态来控制设置面板显示
 
   const timerRef = useRef(null);
+  const quoteCount = quotes.length; // 直接使用常量，减少不必要的状态
 
   // 获取随机名言的函数
   const getRandomQuote = () => {
@@ -25,7 +27,7 @@ const App = () => {
       setQuote(randomQuote);
       setFade(true); // 触发淡入动画
       setLoading(false);
-      setCountdown(10); // 重置倒计时
+      setCountdown(autoPlayInterval); // 重置倒计时
     }, 500); // 500ms 与 CSS 动画时间一致
   };
 
@@ -38,14 +40,14 @@ const App = () => {
   useEffect(() => {
     if (isAutoPlay) {
       timerRef.current = setInterval(() => {
-        setCountdown((prev) => (prev > 1 ? prev - 1 : 10));
+        setCountdown((prev) => (prev > 1 ? prev - 1 : autoPlayInterval));
       }, 1000);
     } else {
       clearInterval(timerRef.current);
     }
 
     return () => clearInterval(timerRef.current);
-  }, [isAutoPlay]);
+  }, [isAutoPlay, autoPlayInterval]);
 
   // 自动播放逻辑
   useEffect(() => {
@@ -54,20 +56,17 @@ const App = () => {
     }
   }, [countdown, isAutoPlay]);
 
-  // 组件挂载时获取初始名言和格言数量
+  // 组件挂载时获取初始名言
   useEffect(() => {
     getRandomQuote();
-    setQuoteCount(quotes.length); // 设置格言数量
   }, []);
 
   // 更新时间和日期的逻辑
   useEffect(() => {
     const updateTimeAndDate = () => {
       const now = new Date();
-      const timeString = now.toLocaleTimeString('zh-CN', { hour12: false, hour: '2-digit', minute: '2-digit' });
-      const dateString = now.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
-      setCurrentTime(timeString);
-      setCurrentDate(dateString);
+      setCurrentTime(now.toLocaleTimeString('zh-CN', { hour12: false, hour: '2-digit', minute: '2-digit' }));
+      setCurrentDate(now.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' }));
     };
 
     updateTimeAndDate(); // 初始更新
@@ -76,11 +75,25 @@ const App = () => {
     return () => clearInterval(intervalId); // 清理定时器
   }, []);
 
+  // 点击空白处关闭设置面板
+  const handleClickOutside = (event) => {
+    if (!event.target.closest('.settings-panel') && !event.target.closest('.settings-btn')) {
+      setShowSettings(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="container">
       <div className="time-date">
         <div className="current-time">北京时间: {currentTime}</div>
-        <div className="current-date">日期: {currentDate}</div>
+        <div className="current-date">{currentDate}</div>
       </div>
       <div className="quote-count">格言总数: {quoteCount}</div> {/* 显示格言数量 */}
       <div className={`quote-box ${fade ? 'visible' : 'hidden'}`}>
@@ -94,6 +107,27 @@ const App = () => {
         {isAutoPlay ? '停止自动播放' : '开启自动播放'}
       </button>
       {isAutoPlay && <p className="countdown">下一句将在 {countdown} 秒后切换</p>}
+      <button className="settings-btn" onClick={() => setShowSettings(!showSettings)}>设置</button>
+      <div className={`settings-panel ${showSettings ? 'visible' : 'hidden'}`}>
+        <div className="auto-play-interval">
+          <label>自动播放间隔: </label>
+          <input
+            type="range"
+            min="5"
+            max="60"
+            value={autoPlayInterval}
+            onChange={(e) => setAutoPlayInterval(parseInt(e.target.value))}
+          />
+          <input
+            type="number"
+            min="5"
+            max="60"
+            value={autoPlayInterval}
+            onChange={(e) => setAutoPlayInterval(parseInt(e.target.value))}
+          />
+          <span>秒</span>
+        </div>
+      </div>
     </div>
   );
 };
