@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: 'Arial', sans-serif;
-  background: linear-gradient(to right, #3b82f6, #8b5cf6); /* 背景渐变 */
+  background: linear-gradient(to right, var(--primary-100), var(--primary-200));
 }
 
 .container {
@@ -11,7 +11,9 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  position: relative; /* 确保子元素能够相对于容器定位 */
+  position: relative;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 .quote-count {
@@ -20,21 +22,24 @@ body {
   left: 10px;
   font-size: 1rem;
   font-weight: bold;
-  color: #fff; /* 白色字体 */
-  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+  color: var(--text-100);
+  background-color: var(--bg-200);
   padding: 5px 10px;
   border-radius: 8px;
 }
 
 .quote-box {
-  color: white;
+  color: var(--text-100);
   font-size: 2rem;
-  padding: 1.5rem;
+  padding: 1rem;
   font-family: 'Georgia', serif;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--bg-100);
   transition: opacity 0.5s ease-in-out;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .quote-box.hidden {
@@ -47,7 +52,7 @@ body {
 
 .author {
   font-size: 1.2rem;
-  color: #e5e7eb; /* 浅灰色 */
+  color: var(--text-200);
 }
 
 .change-quote-btn, .auto-play-btn {
@@ -55,7 +60,7 @@ body {
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
   color: #fff;
-  background-color: #4f46e5; /* 按钮背景色 */
+  background-color: var(--accent-200);
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -63,19 +68,19 @@ body {
 }
 
 .change-quote-btn:hover, .auto-play-btn:hover {
-  background-color: #4338ca; /* 按钮悬停效果 */
+  background-color: var(--primary-100);
 }
 
 .change-quote-btn:disabled {
-  background-color: #9ca3af; /* 按钮禁用时颜色 */
+  background-color: var(--bg-300);
   cursor: not-allowed;
 }
 
 .countdown {
   margin-top: 1rem;
-  color: #e5e7eb; /* 浅灰色 */
+  color: var(--text-200);
   font-size: 1rem;
-  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+  background-color: var(--bg-200);
   padding: 5px 10px;
   border-radius: 8px;
   display: inline-block;
@@ -87,8 +92,8 @@ body {
   top: 10px;
   left: 10px;
   font-size: 14px;
-  color: #fff; /* 白色字体 */
-  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+  color: var(--text-100);
+  background-color: var(--bg-100);
   padding: 5px 10px;
   border-radius: 8px;
   font-family: 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif; /* 苹果风格字体 */
@@ -110,7 +115,7 @@ body {
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
   color: #fff;
-  background-color: #4f46e5;
+  background-color: var(--accent-200);
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -118,20 +123,20 @@ body {
 }
 
 .settings-btn:hover {
-  background-color: #4338ca;
+  background-color: var(--primary-100);
 }
 
 .settings-panel {
   position: absolute;
   bottom: 60px;
   right: 20px;
-  background-color: rgba(0, 0, 0, 0.5); /* 使用半透明背景 */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* 使用半透明边框 */
+  background-color: var(--bg-100);
+  border: 1px solid var(--primary-200);
   padding: 10px;
   border-radius: 8px; /* 与整体一致的圆角 */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* 与整体一致的阴影 */
   transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-  color: #fff; /* 白色字体 */
+  color: var(--text-100); /* 白色字体 */
 }
 
 .settings-panel.hidden {
@@ -153,20 +158,86 @@ body {
 
 .settings-panel .auto-play-interval label {
   margin-bottom: 10px;
-  color: #fff; /* 白色字体 */
+  color: var(--text-100); /* 白色字体 */
 }
 
 .settings-panel .auto-play-interval input {
   margin: 10px 0;
   width: 80%;
-  border: 1px solid rgba(255, 255, 255, 0.2); /* 使用半透明边框 */
+  border: 1px solid var(--primary-200);
   border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.1); /* 使用半透明背景 */
-  color: #fff; /* 白色字体 */
+  background-color: var(--bg-200);
+  color: var(--text-100);
   padding: 5px;
 }
 
 .settings-panel .auto-play-interval span {
   font-size: 14px;
-  color: #e5e7eb; /* 浅灰色 */
+  color: var(--text-200);
+}
+
+/* 移动端响应式设计 */
+@media screen and (max-width: 768px) {
+  .quote-box {
+    font-size: 1.5rem;
+    padding: 0.8rem;
+    margin: 0 1rem;
+  }
+
+  .author {
+    font-size: 1rem;
+  }
+
+  .change-quote-btn, 
+  .auto-play-btn,
+  .settings-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .time-date {
+    font-size: 12px;
+    padding: 3px 8px;
+  }
+
+  .current-time {
+    font-size: 12px;
+  }
+
+  .current-date {
+    font-size: 10px;
+  }
+
+  .quote-count {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+  }
+
+  .settings-panel {
+    width: 80%;
+    right: 50%;
+    transform: translateX(50%);
+    bottom: 80px;
+  }
+
+  .countdown {
+    font-size: 0.9rem;
+    padding: 3px 8px;
+  }
+}
+
+/* 更小屏幕的设备 */
+@media screen and (max-width: 480px) {
+  .quote-box {
+    font-size: 1.2rem;
+    padding: 0.6rem;
+  }
+
+  .container {
+    padding: 0.5rem;
+  }
+
+  .settings-panel .auto-play-interval input {
+    width: 90%;
+  }
 }

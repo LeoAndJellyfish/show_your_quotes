@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './App.css'; // 引入自定义 CSS
 import quotes from './quotes.json';
 
@@ -17,19 +17,19 @@ const App = () => {
   const timerRef = useRef(null);
   const quoteCount = quotes.length; // 直接使用常量，减少不必要的状态
 
-  // 获取随机名言的函数
-  const getRandomQuote = () => {
-    setFade(false); // 触发淡出动画
+  // 使用 useCallback 包装 getRandomQuote 函数
+  const getRandomQuote = useCallback(() => {
+    setFade(false);
     setLoading(true);
 
     setTimeout(() => {
       const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
       setQuote(randomQuote);
-      setFade(true); // 触发淡入动画
+      setFade(true);
       setLoading(false);
-      setCountdown(autoPlayInterval); // 重置倒计时
-    }, 500); // 500ms 与 CSS 动画时间一致
-  };
+      setCountdown(autoPlayInterval);
+    }, 500);
+  }, [autoPlayInterval]);
 
   // 开启/关闭自动播放的函数
   const toggleAutoPlay = () => {
@@ -49,17 +49,16 @@ const App = () => {
     return () => clearInterval(timerRef.current);
   }, [isAutoPlay, autoPlayInterval]);
 
-  // 自动播放逻辑
+  // 修改这两个 useEffect，添加 getRandomQuote 到依赖数组
   useEffect(() => {
     if (isAutoPlay && countdown === 1) {
       getRandomQuote();
     }
-  }, [countdown, isAutoPlay]);
+  }, [countdown, isAutoPlay, getRandomQuote]);
 
-  // 组件挂载时获取初始名言
   useEffect(() => {
     getRandomQuote();
-  }, []);
+  }, [getRandomQuote]);
 
   // 更新时间和日期的逻辑
   useEffect(() => {
